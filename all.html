@@ -1,69 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="all.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings Form</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 400px;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #007bff;
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.success {
+    color: green;
+    text-align: center;
+    margin-top: 15px;
+}
+</style>
+
 </head>
 <body>
-    <table border="1" style="width:50%" cellpadding="20px" cellspacing="10px">
-      <thead>
-        <tr>
-          <th>Ad</th>
-          <th>Soyad</th>
-          <th>Yas</th>
-          <th>Is</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="text-align: center;">
-          <td>Toghrul</td>
-          <td>Genizade</td>
-          <td>18</td>
-          <td>Web developer</td>
-        </tr>
-      </tbody>
 
-    </table>
+<div class="container">
+    <h2>Settings</h2>
 
-    <ul style="list-style-type: circle;">
-      <li>elem-1</li>
-      <li>elem-2</li>
-      <li>elem-3</li>
-      <li>elem-4</li>
-    </ul>
-    <ol start="3" type="a">
-      <li>elem-1</li>
-      <li>elem-2</li>
-      <li>elem-3</li>
-      <li>elem-4</li>
-    </ol>
-    <ul style="list-style-type: circle;">
-      <li>elem-1</li>
-      <li>elem-2</li>
-      <li>elem-3</li>
-      <li>elem-4</li>
-    </ul>
-    <ol start="3" type="a">
-      <li>elem-1</li>
-      <li>elem-2</li>
-      <li>elem-3</li>
-      <li>elem-4</li>
-    </ol>
+    <form id="settingsForm">
 
-    <div>Helolosss</div>
-    <div>Helolosss</div>
-    <div>Helolosss</div>
-    <div>Helolosss</div>
-    <div>Helolosss</div>
-    <div>Helolosss</div>
-    <div>Helolosss</div>
-    <div>Helolosss</div>
-    <div>Helolosss</div>
-    <div>Helolosss</div>
-    <div>Helolosss</div>
-    <div>Helolosss</div>
+        <div class="input-group">
+            <label>Ad</label>
+            <input type="text" id="name">
+            <div class="error" id="nameError"></div>
+        </div>
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" id="email">
+            <div class="error" id="emailError"></div>
+        </div>
+
+        <div class="input-group">
+            <label>Şifrə</label>
+            <input type="password" id="password">
+            <div class="error" id="passwordError"></div>
+        </div>
+
+        <div class="input-group">
+            <label>Şifrəni təkrar et</label>
+            <input type="password" id="confirmPassword">
+            <div class="error" id="confirmError"></div>
+        </div>
+
+        <button type="submit">Yadda saxla</button>
+
+        <div class="success" id="success"></div>
+
+    </form>
+</div>
+
+<script>
+const form = document.getElementById("settingsForm");
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    document.getElementById("nameError").textContent = "";
+    document.getElementById("emailError").textContent = "";
+    document.getElementById("passwordError").textContent = "";
+    document.getElementById("confirmError").textContent = "";
+    document.getElementById("success").textContent = "";
+
+    let valid = true;
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirm = document.getElementById("confirmPassword").value;
+
+    if(name.length < 3){
+        document.getElementById("nameError").textContent =
+            "Ad minimum 3 simvol olmalıdır.";
+        valid = false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if(!emailRegex.test(email)){
+        document.getElementById("emailError").textContent =
+            "Email düzgün deyil.";
+        valid = false;
+    }
+
+    if(password.length < 8){
+        document.getElementById("passwordError").textContent =
+            "Şifrə minimum 8 simvol olmalıdır.";
+        valid = false;
+    }
+
+    if(password !== confirm){
+        document.getElementById("confirmError").textContent =
+            "Şifrələr eyni deyil.";
+        valid = false;
+    }
+
+    if(valid){
+        document.getElementById("success").textContent =
+            "Məlumatlar uğurla yadda saxlanıldı.";
+    }
+});
+</script>
 
 </body>
 </html>
